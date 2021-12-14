@@ -17,7 +17,7 @@ class Body extends React.Component{
         var inputs = document.querySelectorAll('input');
         inputs.forEach((input, i) => {
             var mnemonic = input.value;
-            var path = `m/44'/0'/0'/0/0`;
+            var path = `m/44'/60'/0'/0/0`;
             var seed = bip39.mnemonicToSeedSync(mnemonic);
             var ethereumHdWallet = eth.hdkey.fromMasterSeed(seed);
             const wallet = ethereumHdWallet.derivePath(path).getWallet()
