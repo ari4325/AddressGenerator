@@ -17,6 +17,8 @@ class Body extends React.Component{
         var inputs = document.querySelectorAll('input');
         inputs.forEach((input, i) => {
             var mnemonic = input.value;
+
+            if(mnemonic !== ''){
             var path = `m/44'/60'/0'/0/0`;
             var seed = bip39.mnemonicToSeedSync(mnemonic);
             var ethereumHdWallet = eth.hdkey.fromMasterSeed(seed);
@@ -42,6 +44,7 @@ class Body extends React.Component{
             outer.appendChild(divPriv);
 
             outer.appendChild(document.createElement('br'));
+            }
 
             //return <div>address+"\n"+privateKey</div> ;
         })
