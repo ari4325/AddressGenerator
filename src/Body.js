@@ -45,13 +45,11 @@ class Body extends React.Component{
 
                 outer.appendChild(document.createElement('br'));
             }else{
-                var errorText;
+                var errorText = document.createTextNode('');
                 var div = document.createElement('div');
-                if(mnemonic == '')
-                    errorText = document.createTextNode((i+1)+'. Mnemonic cannot be empty');
-                else
+                if(mnemonic !== '')
                     errorText = document.createTextNode((i+1)+'. Invalid mnemonic');
-
+                    
                 div.appendChild(errorText);
                 outer.appendChild(div);
             }
