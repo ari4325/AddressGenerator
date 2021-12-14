@@ -17,33 +17,43 @@ class Body extends React.Component{
         var inputs = document.querySelectorAll('input');
         inputs.forEach((input, i) => {
             var mnemonic = input.value;
-
-            if(mnemonic !== ''){
-            var path = `m/44'/60'/0'/0/0`;
-            var seed = bip39.mnemonicToSeedSync(mnemonic);
-            var ethereumHdWallet = eth.hdkey.fromMasterSeed(seed);
-            const wallet = ethereumHdWallet.derivePath(path).getWallet()
-            const address = `0x${wallet.getAddress().toString('hex')}`
-            const privateKey = wallet.getPrivateKey().toString('hex')
-
-            var str = address+"\n"+privateKey;
-            //console.log(str);
-
             var outer = document.getElementById('outer');
 
-            var divAddr = document.createElement('div');
-            var divPriv = document.createElement('div');
+            if(mnemonic !== '' && bip39.validateMnemonic(mnemonic)){
+                var path = `m/44'/60'/0'/0/0`;
+
+                var seed = bip39.mnemonicToSeedSync(mnemonic);
+                var ethereumHdWallet = eth.hdkey.fromMasterSeed(seed);
+                const wallet = ethereumHdWallet.derivePath(path).getWallet()
+                const address = `0x${wallet.getAddress().toString('hex')}`
+                const privateKey = wallet.getPrivateKey().toString('hex')
+
+                var str = address+"\n"+privateKey;
+                //console.log(str);
+
+                var divAddr = document.createElement('div');
+                var divPriv = document.createElement('div');
 
 
-            var addressText = document.createTextNode((i+1)+ ". " + address);
-            var ketText = document.createTextNode(privateKey);
+                var addressText = document.createTextNode((i+1)+ ". " + address);
+                var ketText = document.createTextNode(privateKey);
 
-            divAddr.appendChild(addressText);
-            divPriv.appendChild(ketText);
-            outer.appendChild(divAddr);
-            outer.appendChild(divPriv);
+                divAddr.appendChild(addressText);
+                divPriv.appendChild(ketText);
+                outer.appendChild(divAddr);
+                outer.appendChild(divPriv);
 
-            outer.appendChild(document.createElement('br'));
+                outer.appendChild(document.createElement('br'));
+            }else{
+                var errorText;
+                var div = document.createElement('div');
+                if(mnemonic == '')
+                    errorText = document.createTextNode((i+1)+'. Mnemonic cannot be empty');
+                else
+                    errorText = document.createTextNode((i+1)+'. Invalid mnemonic');
+
+                div.appendChild(errorText);
+                outer.appendChild(div);
             }
 
             //return <div>address+"\n"+privateKey</div> ;
